@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+    <link rel="stylesheet" th:href="@{/css/userStyles.css}">
+</head>
+<body>
+<div class="main_container">
+    <h1>Create New User</h1>
+    <form th:action="@{/users}" method="post" th:object="${userDTO}">
+        <div class="forms">
+            <label for="name">Name</label>
+            <input type="text" id="name" th:field="*{name}">
+        </div>
+        <div class="forms">
+            <label for="email">Email</label>
+            <input type="text" id="email" th:field="*{email}">
+        </div>
+        <div class="forms">
+            <label for="age">Age</label>
+            <input type="number" id="age" th:field="*{age}" min="0" step="1">
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+</body>
+</html>
