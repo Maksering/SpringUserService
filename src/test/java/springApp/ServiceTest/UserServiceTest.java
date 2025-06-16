@@ -1,4 +1,4 @@
-package springApp;
+package springApp.ServiceTest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
