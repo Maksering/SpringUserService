@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-public class UserControllerIntegrationTestTest extends IntegrationTestInitClass {
+public class UserControllerIntegrationTest extends IntegrationTestInitClass {
 
     @Autowired
     private MockMvc mockMvc;
