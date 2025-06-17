@@ -1,4 +1,4 @@
-package springApp.integrationTest;
+package springApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DBIntegrationTest extends IntegrationTestInitClass {
+public class DataBaseIntegrationTest extends IntegrationTestInitClass {
 
     @Autowired
     private DataSource dataSource;

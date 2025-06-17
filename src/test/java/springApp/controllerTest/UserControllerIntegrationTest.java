@@ -1,10 +1,10 @@
-package springApp.integrationTest.controllerTest;
+package springApp.controllerTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import springApp.integrationTest.IntegrationTestInitClass;
+import springApp.IntegrationTestInitClass;
 import springApp.entity.User;
 import springApp.repository.UserRepository;
 

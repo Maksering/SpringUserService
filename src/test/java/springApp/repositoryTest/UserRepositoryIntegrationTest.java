@@ -1,9 +1,9 @@
-package springApp.integrationTest.repositoryTest;
+package springApp.repositoryTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import springApp.entity.User;
-import springApp.integrationTest.IntegrationTestInitClass;
+import springApp.IntegrationTestInitClass;
 import springApp.repository.UserRepository;
 
 import java.util.List;
