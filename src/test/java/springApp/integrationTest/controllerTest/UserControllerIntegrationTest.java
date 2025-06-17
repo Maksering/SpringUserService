@@ -1,13 +1,12 @@
-package springApp.IntegrationTest;
+package springApp.integrationTest.controllerTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import springApp.integrationTest.IntegrationTestInitClass;
 import springApp.entity.User;
 import springApp.repository.UserRepository;
-
-import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -37,7 +36,6 @@ public class UserControllerIntegrationTest extends IntegrationTestInitClass {
         user.setName("Test");
         user.setEmail("test@test.com");
         user.setAge(20);
-        user.setCreated_at(LocalDateTime.now());
         userRepository.save(user);
 
         mockMvc.perform(get("/users"))
@@ -73,7 +71,6 @@ public class UserControllerIntegrationTest extends IntegrationTestInitClass {
         user.setName("test");
         user.setEmail("test@test.com");
         user.setAge(20);
-        user.setCreated_at(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         mockMvc.perform(get("/users/{id}/update", savedUser.getId()))
@@ -88,7 +85,6 @@ public class UserControllerIntegrationTest extends IntegrationTestInitClass {
         user.setName("test");
         user.setEmail("test@test.com");
         user.setAge(20);
-        user.setCreated_at(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         mockMvc.perform(post("/users/{id}", savedUser.getId())
@@ -107,7 +103,6 @@ public class UserControllerIntegrationTest extends IntegrationTestInitClass {
         user.setName("Delete User");
         user.setEmail("delete@example.com");
         user.setAge(50);
-        user.setCreated_at(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         mockMvc.perform(post("/users/{id}/delete", savedUser.getId()))
