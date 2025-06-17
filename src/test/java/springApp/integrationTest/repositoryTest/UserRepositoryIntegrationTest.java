@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class RepositoryIntegrationTest extends IntegrationTestInitClass {
+public class UserRepositoryIntegrationTest extends IntegrationTestInitClass {
 
     @Autowired
     UserRepository userRepository;
