@@ -1,8 +1,9 @@
-package springApp;
+package springApp.repositoryTest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import springApp.IntegrationTestInitClass;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
