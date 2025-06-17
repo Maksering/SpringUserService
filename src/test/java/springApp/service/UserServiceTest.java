@@ -1,4 +1,4 @@
-package springApp.serviceTest;
+package springApp.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +9,6 @@ import springApp.dto.UserDTO;
 import springApp.entity.User;
 import springApp.mapper.UserMapper;
 import springApp.repository.UserRepository;
-import springApp.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
