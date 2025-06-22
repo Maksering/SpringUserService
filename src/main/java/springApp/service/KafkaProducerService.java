@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class KafkaProducerService {
 
     public static final String CREATE_OPERATION = "create";
-    private static final String DELETE_OPERATION = "delete";
+    static final String DELETE_OPERATION = "delete";
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
