@@ -1,0 +1,28 @@
+package springApp.service;
+
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+public class KafkaProducerService {
+
+    public static final String CREATE_OPERATION = "create";
+    private static final String DELETE_OPERATION = "delete";
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void sendUserCrate(String email) {
+        kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
+                CREATE_OPERATION,
+                email);
+    }
+
+    public void sendUserDelete(String email) {
+        kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
+                DELETE_OPERATION,
+                email);
+    }
+}

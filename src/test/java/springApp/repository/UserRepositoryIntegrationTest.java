@@ -2,16 +2,15 @@ package springApp.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import springApp.DataBaseIntegrationTestInitClass;
 import springApp.entity.User;
-import springApp.IntegrationTestInitClass;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class UserRepositoryIntegrationTest extends IntegrationTestInitClass {
-
+public class UserRepositoryIntegrationTest extends DataBaseIntegrationTestInitClass {
     @Autowired
     UserRepository userRepository;
 

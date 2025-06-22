@@ -3,15 +3,14 @@ package springApp.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import springApp.IntegrationTestInitClass;
+import springApp.DataBaseIntegrationTestInitClass;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DataBaseIntegrationTest extends IntegrationTestInitClass {
-
+public class DataBaseIntegrationTest extends DataBaseIntegrationTestInitClass {
     @Autowired
     private DataSource dataSource;
     @Autowired

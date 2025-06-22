@@ -1,6 +1,5 @@
 package springApp.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -8,15 +7,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springApp.dto.UserDTO;
+import springApp.service.KafkaProducerService;
 import springApp.service.UserService;
 
+
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private final UserService userService;
 
+    private final UserService userService;
+    private final KafkaProducerService producerService;
+
+    public UserController(UserService userService, KafkaProducerService producerService) {
+        this.userService = userService;
+        this.producerService = producerService;
+    }
     @GetMapping
     public String getAllUsers(Model model) {
         logger.info("Request for all users");
@@ -38,6 +44,7 @@ public class UserController {
             userService.createUser(userDto);
             logger.info("User created with ID: " + userDto.getId());
             redirectAttributes.addFlashAttribute("successMessage", "User created successfully");
+            producerService.sendUserCrate(userDto.getEmail());
         } catch (Exception e) {
             logger.error("Error on user create: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -71,9 +78,11 @@ public class UserController {
     public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         logger.info("Trying to delete user, userid: " + id);
         try {
+            String email = userService.getUserById(id).getEmail();
             userService.deleteUser(id);
             logger.info("Deleting user with id: " + id);
             redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully");
+            producerService.sendUserDelete(email);
         } catch (Exception e) {
             logger.error("Error on user delete, userid: " + id + " Error: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());

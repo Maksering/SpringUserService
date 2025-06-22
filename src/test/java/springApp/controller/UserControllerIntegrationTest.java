@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import springApp.IntegrationTestInitClass;
+import springApp.DataBaseIntegrationTestInitClass;
 import springApp.entity.User;
 import springApp.repository.UserRepository;
 
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-public class UserControllerIntegrationTest extends IntegrationTestInitClass {
+public class UserControllerIntegrationTest extends DataBaseIntegrationTestInitClass {
 
     @Autowired
     private MockMvc mockMvc;
