@@ -17,11 +17,10 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
-    private final KafkaProducerService producerService;
+
 
     public UserController(UserService userService, KafkaProducerService producerService) {
         this.userService = userService;
-        this.producerService = producerService;
     }
     @GetMapping
     public String getAllUsers(Model model) {
@@ -44,7 +43,6 @@ public class UserController {
             userService.createUser(userDto);
             logger.info("User created with ID: " + userDto.getId());
             redirectAttributes.addFlashAttribute("successMessage", "User created successfully");
-            producerService.sendUserCrate(userDto.getEmail());
         } catch (Exception e) {
             logger.error("Error on user create: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -82,7 +80,6 @@ public class UserController {
             userService.deleteUser(id);
             logger.info("Deleting user with id: " + id);
             redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully");
-            producerService.sendUserDelete(email);
         } catch (Exception e) {
             logger.error("Error on user delete, userid: " + id + " Error: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
