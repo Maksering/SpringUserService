@@ -1,5 +1,10 @@
 package springApp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,15 +18,23 @@ import springApp.service.UserService;
 
 @Controller
 @RequestMapping("/users")
+@Tag(name = "User controller", description = "HTML-интерфейс для управления пользователями")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
-
     public UserController(UserService userService, KafkaProducerService producerService) {
         this.userService = userService;
     }
+    @Operation(
+            summary = "Получить список всех существующих пользователей",
+            description = "Возвращает HTML-страницу со списком всех существующих пользователей"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Страница с пользователями успешно загружена"
+    )
     @GetMapping
     public String getAllUsers(Model model) {
         logger.info("Request for all users");
@@ -29,6 +42,14 @@ public class UserController {
         return "users/list";
     }
 
+    @Operation(
+            summary = "Форма для создания нового пользователя",
+            description = "Возвращает HTML-форму для создания нового пользователя"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Форма для создания пользователя успешно загружена"
+    )
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         logger.info("Request for user create form");
@@ -36,8 +57,21 @@ public class UserController {
         return "users/create";
     }
 
+    @Operation(
+            summary = "Создать нового пользователя",
+            description = "Создает нового пользователя. После успешного создания возвращает на список пользователей."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Пользователь успешно создан"
+            )
+    })
     @PostMapping
-    public String createUser(@ModelAttribute UserDTO userDto, RedirectAttributes redirectAttributes) {
+    public String createUser(
+            @Parameter(description = "Данные для создания нового пользователя")
+            @ModelAttribute UserDTO userDto,
+            RedirectAttributes redirectAttributes) {
         logger.info("Try to create new user");
         try {
             userService.createUser(userDto);
@@ -50,16 +84,46 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @Operation(
+            summary = "Форма для редактирования пользователя",
+            description = "Возвращает HTML-форму для редактирования данных пользователя"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Форма редактирования успешно загружена"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Пользователь не найден на сервере"
+            )
+    })
     @GetMapping("/{id}/update")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(
+            @Parameter(description = "ID пользователя", example = "1", required = true)
+            @PathVariable Long id,
+            Model model) {
         logger.info("Request for showing edit form for userID: " + id);
         model.addAttribute("userDto", userService.getUserById(id));
         return "users/update";
     }
 
+    @Operation(
+            summary = "Обновить данные пользователя",
+            description = "Обновляет данные пользователя и возвращает к списку пользователей"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Обновление данных пользователя"
+    )
     @PostMapping("/{id}")
-    public String updateUser(@PathVariable Long id, @ModelAttribute UserDTO userDto,
-                             RedirectAttributes redirectAttributes) {
+    public String updateUser(
+            @Parameter(description = "ID пользователя", example = "1", required = true)
+            @PathVariable Long id,
+
+            @Parameter(description = "Обновленные данные пользователя")
+            @ModelAttribute UserDTO userDto,
+            RedirectAttributes redirectAttributes) {
         logger.info("Try to update with id: " + id);
         try {
             userService.updateUser(id, userDto);
@@ -71,7 +135,14 @@ public class UserController {
         }
         return "redirect:/users";
     }
-
+    @Operation(
+            summary = "Удалить пользователя",
+            description = "Удаляет пользователя и отправляет событие удаления в Kafka. Перенаправляет на список пользователей."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Удаление пользователя"
+    )
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         logger.info("Trying to delete user, userid: " + id);

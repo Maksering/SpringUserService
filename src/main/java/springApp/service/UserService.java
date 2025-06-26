@@ -52,7 +52,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO) {
         logger.debug("Creating new user");
         User user = userMapper.mapToUserEntity(userDTO);
-        producerService.sendUserCrate(userDTO.getEmail());
+        producerService.sendUserCreate(userDTO.getEmail());
         logger.info("User created ID: " + user.getId());
         return userMapper.mapToUserDTO(userRepository.save(user));
     }

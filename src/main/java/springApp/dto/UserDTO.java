@@ -6,17 +6,22 @@ import java.time.LocalDateTime;
 
 @Schema(description = "UserDTO")
 public class UserDTO {
+
     @Schema(description = "Уникальный идентификатор пользователя",
             accessMode = Schema.AccessMode.READ_ONLY,
             example = "1"
     )
     private Integer id;
+
     @Schema(description = "Имя пользователя", example = "Иван")
     private String name;
+
     @Schema(description = "Электронная почта пользователя", example = "example@example.com")
     private String email;
+
     @Schema(description = "Возраст пользователся", example = "20")
     private Integer age;
+
     @Schema(description = "Дата создания пользователя",
             accessMode = Schema.AccessMode.READ_ONLY,
             example = "2025-01-01 12:00:00"
