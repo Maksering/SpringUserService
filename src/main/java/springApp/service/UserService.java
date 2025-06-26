@@ -19,10 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final KafkaProducerService producerService;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, KafkaProducerService producerService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.producerService = producerService;
     }
     @Transactional
     public List<UserDTO> getAllUsers() {
@@ -50,6 +52,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO) {
         logger.debug("Creating new user");
         User user = userMapper.mapToUserEntity(userDTO);
+        producerService.sendUserCrate(userDTO.getEmail());
         logger.info("User created ID: " + user.getId());
         return userMapper.mapToUserDTO(userRepository.save(user));
     }
@@ -70,11 +73,16 @@ public class UserService {
     @Transactional
     public void deleteUser(Long id) {
         logger.debug("Deleting user ID: " + id);
-        if (!userRepository.existsById(id)) {
+        User found = userRepository.findById(id).orElseThrow(() -> {
             logger.error("User not found ID: " + id);
-            throw new RuntimeException("User not found by id: " + id);
+            return new RuntimeException("User not found by id: " + id);
+        });
+        if (found != null) {
+            userRepository.delete(found);
+            producerService.sendUserDelete(found.getEmail());
+            logger.info("User deleted ID: " + id);
         }
-        userRepository.deleteById(id);
-        logger.info("User deleted ID: " + id);
+
+
     }
 }
