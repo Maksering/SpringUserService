@@ -14,15 +14,15 @@ public class KafkaProducerService {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendUserCrate(String email) {
-        kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
+    public void sendUserCreate(String email) {
+       /* kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
                 CREATE_OPERATION,
-                email);
+                email);*/
     }
 
     public void sendUserDelete(String email) {
-        kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
+       /* kafkaTemplate.send(kafkaTemplate.getDefaultTopic(),
                 DELETE_OPERATION,
-                email);
+                email);*/
     }
 }
